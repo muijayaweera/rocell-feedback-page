@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Feedback</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 2rem; max-width:480px; margin: auto; }
+    h1 { font-size: 1.4rem; margin-bottom: .25rem; }
+    label { display:block; margin-top:.75rem; font-weight:600; }
+    input, textarea, select { width:100%; padding:.6rem; margin-top:.25rem; border-radius:8px; border:1px solid #ddd; box-sizing:border-box; }
+    button { margin-top:1rem; padding:.7rem 1rem; border-radius:10px; border:0; cursor:pointer; font-weight:700; }
+    .success { color:green; margin-top:1rem; }
+    .error { color:crimson; margin-top:1rem; }
+    .small { font-size:.9rem; color:#555; margin-top:.4rem; }
+  </style>
+</head>
+<body>
+  <h1>We value your feedback 💛</h1>
+  <p class="small">Quick — tap and tell us how we did.</p>
+
+  <label for="service">Service (optional)</label>
+  <input id="service" type="text" placeholder="e.g., Consultation, Haircut">
+
+  <label for="staff">Staff (optional)</label>
+  <input id="staff" type="text" placeholder="Staff name (optional)">
+
+  <label for="rating">Rating</label>
+  <select id="rating">
+    <option value="">Select — 1 (poor) to 5 (excellent)</option>
+    <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
+  </select>
+
+  <label for="feedback">Feedback</label>
+  <textarea id="feedback" rows="4" placeholder="Tell us what went well or how we can improve"></textarea>
+
+  <label for="contact">Contact (optional)</label>
+  <input id="contact" type="text" placeholder="Email or phone (optional)">
+
+  <label><input id="consent" type="checkbox"> I consent to my feedback being used for quality improvement</label>
+
+  <button id="send">Send feedback</button>
+
+  <div id="msg"></div>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyuO0B7skz79vNRRt0uFUmOslYsMXvCTuV0IMmscSTOQSLv69gVSYT6tvInK8T7zXqriw/exec"; // <<<<<<<<<<<< replace
+
+    document.getElementById('send').addEventListener('click', async () => {
+      const service = document.getElementById('service').value.trim();
+      const staff = document.getElementById('staff').value.trim();
+      const rating = document.getElementById('rating').value;
+      const feedback = document.getElementById('feedback').value.trim();
+      const contact = document.getElementById('contact').value.trim();
+      const consent = document.getElementById('consent').checked;
+
+      const msgEl = document.getElementById('msg');
+      msgEl.textContent = '';
+      if (!rating) { msgEl.className='error'; msgEl.textContent='Please choose a rating.'; return; }
+      if (!consent) { msgEl.className='error'; msgEl.textContent='Please provide consent to submit.'; return; }
+
+      const payload = { service, staff, rating, feedback, contact };
+
+      try {
+        const resp = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await resp.json();
+        if (data.status === 'success') {
+          msgEl.className='success';
+          msgEl.textContent = 'Thanks — your feedback was saved.';
+          // clear form
+          document.getElementById('service').value='';
+          document.getElementById('staff').value='';
+          document.getElementById('rating').value='';
+          document.getElementById('feedback').value='';
+          document.getElementById('contact').value='';
+          document.getElementById('consent').checked=false;
+        } else {
+          throw new Error(data.message || 'Unknown error');
+        }
+      } catch (err) {
+        msgEl.className='error';
+        msgEl.textContent = 'Could not submit — try again later.';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #926868;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Loading Screen */
+#loading-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  animation: fadeOut 1s ease forwards;
+  animation-delay: 3s;
+}
+
+#loading-screen .logo {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+#loading-screen p {
+  color: #555;
+  font-weight: 500;
+}
+
+/* Fade animation */
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* Form Container */
+.container {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: none;
+}
+
+.container.show {
+  display: block;
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+h2 {
+  color: #b11526;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 14px;
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.radio-group label {
+  display: block;
+  margin: 4px 0;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #b11526;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin-top: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #900f1e;
+}
+
+.thank-you {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+  color: #28a745;
+  font-weight: 500;
+}
+
+/* Mobile Friendly */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+  h2 { font-size: 20px; }
+}

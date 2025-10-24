@@ -1,92 +1,68 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Feedback</title>
-  <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 2rem; max-width:480px; margin: auto; }
-    h1 { font-size: 1.4rem; margin-bottom: .25rem; }
-    label { display:block; margin-top:.75rem; font-weight:600; }
-    input, textarea, select { width:100%; padding:.6rem; margin-top:.25rem; border-radius:8px; border:1px solid #ddd; box-sizing:border-box; }
-    button { margin-top:1rem; padding:.7rem 1rem; border-radius:10px; border:0; cursor:pointer; font-weight:700; }
-    .success { color:green; margin-top:1rem; }
-    .error { color:crimson; margin-top:1rem; }
-    .small { font-size:.9rem; color:#555; margin-top:.4rem; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Service Feedback | Rocell</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>We value your feedback 💛</h1>
-  <p class="small">Quick — tap and tell us how we did.</p>
 
-  <label for="service">Service (optional)</label>
-  <input id="service" type="text" placeholder="e.g., Consultation, Haircut">
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <img src="rocell-logo.png" alt="Rocell Logo" class="logo">
+      <p>We value your feedback</p>
+    </div>
+  </div>
 
-  <label for="staff">Staff (optional)</label>
-  <input id="staff" type="text" placeholder="Staff name (optional)">
+  <!-- Feedback Form -->
+  <div class="container" id="form-container">
+    <h2>Customer Service Feedback</h2>
+    <p class="subtitle">Thank you for visiting us! We value your feedback and would appreciate it if you could take a moment to answer a few quick questions about your experience with our staff.</p>
 
-  <label for="rating">Rating</label>
-  <select id="rating">
-    <option value="">Select — 1 (poor) to 5 (excellent)</option>
-    <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
-  </select>
+    <form id="feedbackForm">
+      <label>1. Please enter your order number.</label>
+      <input type="text" name="orderNumber" required />
 
-  <label for="feedback">Feedback</label>
-  <textarea id="feedback" rows="4" placeholder="Tell us what went well or how we can improve"></textarea>
+      <label>2. How satisfied are you with the assistance provided by our staff? <small>(1 - Very Dissatisfied, 5 - Very Satisfied)</small></label>
+      <input type="number" name="satisfaction" min="1" max="5" required />
 
-  <label for="contact">Contact (optional)</label>
-  <input id="contact" type="text" placeholder="Email or phone (optional)">
+      <label>3. Were our staff friendly and approachable?</label>
+      <div class="radio-group">
+        <label><input type="radio" name="friendly" value="Yes" required> Yes</label>
+        <label><input type="radio" name="friendly" value="Somewhat"> Somewhat</label>
+        <label><input type="radio" name="friendly" value="No"> No</label>
+      </div>
 
-  <label><input id="consent" type="checkbox"> I consent to my feedback being used for quality improvement</label>
+      <label>4. Did the staff provide clear and accurate information about our products?</label>
+      <div class="radio-group">
+        <label><input type="radio" name="clarity" value="Yes, very clearly" required> Yes, very clearly</label>
+        <label><input type="radio" name="clarity" value="Somewhat clearly"> Somewhat clearly</label>
+        <label><input type="radio" name="clarity" value="Not clearly"> Not clearly</label>
+      </div>
 
-  <button id="send">Send feedback</button>
+      <label>5. How promptly did our staff attend to your request or inquiry?</label>
+      <div class="radio-group">
+        <label><input type="radio" name="promptness" value="Immediately" required> Immediately</label>
+        <label><input type="radio" name="promptness" value="Within few minutes"> Within few minutes</label>
+        <label><input type="radio" name="promptness" value="Took some time"> Took some time</label>
+        <label><input type="radio" name="promptness" value="Did not attend at all"> Did not attend at all</label>
+      </div>
 
-  <div id="msg"></div>
+      <label>6. Please mention the salesperson's name and showroom location.</label>
+      <input type="text" name="salesperson" />
 
-  <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyuO0B7skz79vNRRt0uFUmOslYsMXvCTuV0IMmscSTOQSLv69gVSYT6tvInK8T7zXqriw/exec"; // <<<<<<<<<<<< replace
+      <label>7. Do you have any suggestions to help us improve our customer service?</label>
+      <textarea name="suggestions" rows="3"></textarea>
 
-    document.getElementById('send').addEventListener('click', async () => {
-      const service = document.getElementById('service').value.trim();
-      const staff = document.getElementById('staff').value.trim();
-      const rating = document.getElementById('rating').value;
-      const feedback = document.getElementById('feedback').value.trim();
-      const contact = document.getElementById('contact').value.trim();
-      const consent = document.getElementById('consent').checked;
+      <button type="submit">Submit Feedback</button>
+    </form>
 
-      const msgEl = document.getElementById('msg');
-      msgEl.textContent = '';
-      if (!rating) { msgEl.className='error'; msgEl.textContent='Please choose a rating.'; return; }
-      if (!consent) { msgEl.className='error'; msgEl.textContent='Please provide consent to submit.'; return; }
+    <p class="thank-you" id="thankYouMsg">Thank you for your feedback 💬</p>
+  </div>
 
-      const payload = { service, staff, rating, feedback, contact };
-
-      try {
-        const resp = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await resp.json();
-        if (data.status === 'success') {
-          msgEl.className='success';
-          msgEl.textContent = 'Thanks — your feedback was saved.';
-          // clear form
-          document.getElementById('service').value='';
-          document.getElementById('staff').value='';
-          document.getElementById('rating').value='';
-          document.getElementById('feedback').value='';
-          document.getElementById('contact').value='';
-          document.getElementById('consent').checked=false;
-        } else {
-          throw new Error(data.message || 'Unknown error');
-        }
-      } catch (err) {
-        msgEl.className='error';
-        msgEl.textContent = 'Could not submit — try again later.';
-        console.error(err);
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

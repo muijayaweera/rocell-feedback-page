@@ -6,7 +6,7 @@ window.addEventListener('load', () => {
   setTimeout(() => {
     loader.style.display = 'none';
     form.classList.add('show');
-  }, 3000); // 3 seconds
+  }, 2000); // 3 seconds
 });
 
 // Form Submission
@@ -17,7 +17,7 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   // Replace this with your Google Apps Script web app URL
-  const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzWfk2GsWMpR3OStHzLkUGNjpQO0DKzZnDMal7xNBwjm8k11qmI-QmgZhXite2EKV_kvQ/exec';
 
   fetch(scriptURL, { method: 'POST', body: new FormData(form) })
     .then(response => {

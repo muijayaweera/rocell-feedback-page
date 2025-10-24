@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #926868;
+  background-color: #D7EBF4;
   color: #333;
   display: flex;
   justify-content: center;
@@ -15,6 +15,7 @@ body {
   padding: 20px;
 }
 
+/* Loading Screen */
 /* Loading Screen */
 #loading-screen {
   position: fixed;
@@ -30,15 +31,20 @@ body {
   animation-delay: 3s;
 }
 
-#loading-screen .logo {
-  width: 120px;
-  margin-bottom: 10px;
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-#loading-screen p {
-  color: #555;
-  font-weight: 500;
+#loading-screen .logo {
+  width: 120px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
 }
+
 
 /* Fade animation */
 @keyframes fadeOut {
@@ -67,7 +73,7 @@ body {
 }
 
 h2 {
-  color: #b11526;
+  color: #2F4157;
   margin-bottom: 10px;
   text-align: center;
 }
@@ -103,7 +109,7 @@ textarea {
 button {
   width: 100%;
   padding: 12px;
-  background-color: #b11526;
+  background-color: #2F4157;
   color: white;
   border: none;
   border-radius: 10px;
@@ -114,7 +120,7 @@ button {
 }
 
 button:hover {
-  background-color: #900f1e;
+  background-color: #263546;
 }
 
 .thank-you {
